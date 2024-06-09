@@ -1,29 +1,68 @@
-# OlympicGamesStarter
+# Tableau de Bord des Médailles Olympiques
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+Ce projet consiste en une application Angular qui affiche des données sur les médailles olympiques pour différents pays. Il comprend deux composants principaux :
 
-Don't forget to install your node_modules before starting (`npm install`).
+HomeComponent : Affiche un graphique circulaire montrant le nombre total de médailles par pays.
 
-## Development server
+DetailsComponent : Affiche des informations détaillées sur un pays sélectionné, y compris un graphique en ligne montrant le nombre de médailles gagnées par le pays au fil des ans.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Build
+Il suffit de cliquer sur le pays en question pour avoir les détails qui le concernant
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Where to start
+## Utilisation
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+utilise `git clone` pour récupérer le projet, `npm install` pour installer les dépendance, et `ng serve pour lancer le projet`.
+il suffit ensuite de se rendre sur `http://localhost:4200/`
+ 
 
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
+## Explication du code 
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+Composants : 
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+HomeComponent
 
-You're now ready to implement the requested features.
+But : Afficher un graphique circulaire du nombre total de médailles remportées par chaque pays.
 
-Good luck!
+Fonctionnalités clés :
+Récupère les données olympiques et initialise le graphique.
+Affiche le nombre total de pays et le plus grand nombre de participations (Jeux Olympiques) par un pays.
+Utilise chartjs-plugin-piechart-outlabels pour l'étiquetage du graphique circulaire.
+Gère les événements de clic sur le graphique pour naviguer vers le DetailsComponent pour le pays sélectionné.
+
+
+DetailsComponent
+
+But : Afficher des informations détaillées sur un pays sélectionné, y compris un graphique en ligne du nombre de médailles au fil des ans.
+
+Fonctionnalités clés :
+Récupère les données olympiques et les filtre en fonction du pays sélectionné.
+Affiche le nom du pays, le nombre de participations, le nombre total de médailles et le nombre d'athlètes.
+Initialise un graphique en ligne pour montrer le nombre de médailles gagnées par le pays au fil des ans.
+
+Fichiers Clés:
+
+home.component.ts:
+Gère la récupération des données et la configuration du graphique circulaire.
+Utilise ViewChild pour interagir avec les éléments du DOM.
+S'abonne aux données provenant de OlympicService et initialise les données et les options du graphique.
+
+details.component.ts:
+Gère la récupération et l'affichage des données pour un pays spécifique.
+Utilise ActivatedRoute pour obtenir les paramètres de la requête et récupérer les données du pays correspondant.
+Initialise et configure un graphique en ligne pour afficher le nombre de médailles du pays au fil des ans.
+
+olympic.service.ts:
+Fournit des méthodes pour récupérer les données olympiques d'une API.
+Retourne un observable auquel les composants s'abonnent pour recevoir les données.
+
+## Environnement
+
+Angular 14: Le framework principal utilisé pour créer l'application.
+
+Chart.js : Une bibliothèque utilisée pour créer des graphiques.
+chart.js: ^2.9.4
+chartjs-plugin-piechart-outlabels : Un plugin pour Chart.js utilisé pour créer des étiquettes sur les graphiques circulaires.
+chartjs-plugin-piechart-outlabels: ^0.1.4
+
+rxjs: ^7.4.0
