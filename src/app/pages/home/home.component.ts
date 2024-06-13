@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private country: Country[] = [];
   private countryLabels: string[] = [];
-  private ctx: any;
+  private ctx!: string | CanvasRenderingContext2D | HTMLCanvasElement | ArrayLike<CanvasRenderingContext2D | HTMLCanvasElement>;
   private myChart: Chart | undefined;
   private allSubscription = new Subscription();
 

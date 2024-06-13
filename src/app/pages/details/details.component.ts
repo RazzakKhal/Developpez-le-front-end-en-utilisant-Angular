@@ -18,7 +18,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly color = '#04838f';
 
   private currentCountry: Country | undefined;
-  private ctx: any;
+  private ctx!: string | CanvasRenderingContext2D | HTMLCanvasElement | ArrayLike<CanvasRenderingContext2D | HTMLCanvasElement>;
   private myChart: Chart | undefined;
   private allSubscription : Subscription = new Subscription();
 
@@ -32,7 +32,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   public medalsNumber: number | undefined;
   public athletesNumber: number | undefined;
 
-  constructor(private olympicService: OlympicService, private route: ActivatedRoute,  private cdRef: ChangeDetectorRef) { }
+  constructor(private olympicService: OlympicService, private route: ActivatedRoute, private router : Router,  private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -46,12 +46,12 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.initializeChart(oneCountry);
         this.cdRef.detectChanges();
       }else{
-        this.checkErrorOfGetCountry()
+        this.checkErrorOfGetCountryAndRedirectToErrorPage()
         this.cdRef.detectChanges();
 
       }},
       error : () => {
-        this.checkErrorOfGetCountry()
+        this.checkErrorOfGetCountryAndRedirectToErrorPage()
         this.cdRef.detectChanges();
 
       }
@@ -147,25 +147,45 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
    return currentCountry.participations.length > 0 ? [...currentCountry.participations.map((participation : Participation) => participation.year.toString())] : []
   }
 
+  /**
+   *
+   * @param currentCountry
+   * @returns
+   */
   initializeNumberOfEntriesProperties(currentCountry : Country){
     return currentCountry.participations.length
   }
 
+  /**
+   *
+   * @param currentCountry
+   * @returns
+   */
   initializeNumberOfMedalProperties(currentCountry : Country){
     return currentCountry.participations.map((participation) =>participation.medalsCount).reduce((a, b) => a + b,0)
   }
 
+  /**
+   *
+   * @param currentCountry
+   * @returns
+   */
   initializeNumberOfAthletesProperties(currentCountry : Country){
     return currentCountry.participations.map((participation) =>participation.athleteCount).reduce((a, b) => a + b,0)
 
   }
 
-  checkErrorOfGetCountry(){
-    this.nameOfCountry = "Malheureusement Aucun Pays n'a pas être trouvé"
-    this.nameCountryRef.nativeElement.style.backgroundColor = 'red';
+  /**
+   *
+   */
+  checkErrorOfGetCountryAndRedirectToErrorPage(){
+    this.router.navigateByUrl(`error`);
   }
 
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     this.allSubscription.unsubscribe();
   }
